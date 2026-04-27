@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فاتورة ضريبية - ZATCA Phase 1</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            direction: rtl;
+            text-align: right;
+            margin: 20px;
+            line-height: 1.8;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header img {
+            width: 150px;
+            height: auto;
+        }
+        .details, .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .details td {
+            padding: 10px;
+            font-size: 1.2em;
+        }
+        .table th, .table td {
+            border: 1px solid black;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.2em;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 1.1em;
+        }
+        .qr-section {
+            display: flex;
+            text-align: right;
+            flex-direction: column;
+            padding: 2px;
+      
+        }
+        .qr-section h3 {
+            margin: 10px 0;
+        }
+        #qrcode {
+            display: inline-block;
+            margin: 15px 0;
+        }
+      @media print {
+        @page {
+            size: A4;
+            margin: 5mm;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-size: 10pt;
+            line-height: 1.2;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            max-width: 100%;
+        }
+        .header {
+            margin-bottom: 5px;
+            page-break-inside: avoid;
+        }
+        .header img {
+            width: 60px;
+            height: auto;
+        }
+        .header p {
+            margin: 2px 0;
+            font-size: 9pt;
+        }
+        .header h2 {
+            margin: 5px 0;
+            font-size: 12pt;
+        }
+        .details {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 5px;
+        }
+        .details td {
+            padding: 3px 5px;
+            font-size: 8pt;
+            border: 1px solid #000;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 5px;
+        }
+        .table th, .table td {
+            padding: 4px 2px;
+            font-size: 8pt;
+            border: 1px solid #000;
+            text-align: center;
+        }
+        .qr-section {
+            page-break-inside: avoid;
+            page-break-before: auto;
+        }
+        .qr-section h3 {
+            margin: 3px 0;
+            font-size: 9pt;
+        }
+        #qrcode img {
+            width: 80px;
+            height: 80px;
+        }
+        .footer {
+            margin-top: 5px;
+            page-break-inside: avoid;
+            font-size: 8pt;
+        }
+        .footer p {
+            margin: 2px 0;
+        }
+            .print-btn {
+                display: none;
+            }
+      }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <table class="details">
+            <tr>
+                 <img src="logo.png" alt="Logo">
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                   
+                    <p>رقم السجل التجاري: 4650262799</p>
+               
+                </td>
+                <td>
+                         <p>رقم ضريبة القيمة المضافة: 311744595500003</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <table class="details">
+        <tr>
+            <td>المورد: شركة عبد الغني حسين حامد للمصاعد</td>
+            <td>العنوان: العفيفة العفوة - العفيفة المروة - شارع الستين - تقاطع شارع الأمير ماجد مع شارع الأمير سلطان</td>
+            <td>رقم الفاتورة: 477 - 0102</td>
+        </tr>
+        <tr>
+            <td>تاريخ الفاتورة: 30-06-2025 17:30:10</td>
+        </tr>
+    </table>
+    <div class="qr-section">
+
+        <div id="qrcode"></div>
+    </div>
+    <table class="details">
+        <tr>
+            <td>العميل: شركة عبد الغني حسين حامد للمصاعد</td>
+            <td>رقم السجل التجاري: 4650262799</td>
+            <td>رقم ضريبة القيمة المضافة: 311744595500003</td>
+        </tr>
+    </table>
+    <table class="details">
+        <tr>
+            <td>العنوان: العفيفة العفوة - العفيفة المروة - شارع الستين - تقاطع شارع الأمير ماجد مع شارع الأمير سلطان</td>
+        </tr>
+    </table>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>الصنف/الخدمة</th>
+                <th>المبلغ</th>
+                <th>15% ضريبة القيمة المضافة</th>
+                <th>الإجمالي مع الضريبة</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>عقد صيانة تركيبات برقم 0225000102</td>
+                <td>170,000</td>
+                <td>25,500</td>
+                <td>195,500</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="details">
+        <tr>
+            <td>الإجمالي: 170,000</td>
+            <td>15% ضريبة القيمة المضافة: 25,500</td>
+            <td>الإجمالي مع الضريبة: 195,500</td>
+        </tr>
+    </table>
+
+    <div class="footer">
+        <p>تمت طباعة الفاتورة بواسطة محمود عبد الرسول سيد</p>
+        <p>2025-07-01 14:01:41</p>
+        <button  class="print-btn" onclick="window.print()" style="padding: 8px 16px; font-size: 12px; cursor: pointer; margin-top: 5px;">طباعة</button>
+    </div>
+
+    <script>
+        // Wait for page to load
+        window.onload = function() {
+            // ZATCA Phase 1 QR Code Data
+            // Format: Seller Name|VAT Number|Total Amount|VAT Amount|Timestamp
+            const zatcaData = {
+                sellerName: "شركة عبد الغني حسين حامد للمصاعد",
+                vatNumber: "311744595500003",
+                totalAmount: "195500",
+                vatAmount: "25500",
+                timestamp: "2025-06-30T17:30:10Z"
+            };
+
+            // Create QR code string in ZATCA format
+            const qrString = zatcaData.sellerName + "|" + zatcaData.vatNumber + "|" + zatcaData.totalAmount + "|" + zatcaData.vatAmount + "|" + zatcaData.timestamp;
+
+            // Generate QR code using qrcode-generator library
+            try {
+                var typeNumber = 0;
+                var errorCorrectionLevel = 'L';
+                var qr = qrcode(typeNumber, errorCorrectionLevel);
+                qr.addData(qrString);
+                qr.make();
+
+                // Create QR code image
+                var qrContainer = document.getElementById("qrcode");
+                qrContainer.innerHTML = qr.createImgTag(4, 10);
+                
+                console.log("ZATCA Phase 1 QR Code Generated");
+                console.log("QR Data:", qrString);
+            } catch (e) {
+                console.error("Error generating QR code:", e);
+                document.getElementById("qrcode").innerHTML = "<p style='color:red'>خطأ: " + e.message + "</p>";
+            }
+        };
+    </script>
+</body>
+</html>
