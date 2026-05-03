@@ -18,8 +18,11 @@
             margin-bottom: 30px;
         }
         .header img {
-            width: 150px;
+            width: 100%;
+            max-width: 600px;
             height: auto;
+            display: block;
+            margin: 0 auto;
         }
         .details, .table {
             width: 100%;
@@ -55,6 +58,35 @@
             display: inline-block;
             margin: 15px 0;
         }
+        .print-btn {
+            padding: 10px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .print-btn:hover {
+            background: #218838;
+        }
+        .new-invoice-btn {
+            padding: 10px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            margin-right: 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .new-invoice-btn:hover {
+            background: #0056b3;
+        }
       @media print {
         @page {
             size: A4;
@@ -76,8 +108,11 @@
             page-break-inside: avoid;
         }
         .header img {
-            width: 120px;
+            width: 100%;
+            max-width: 500px;
             height: auto;
+            display: block;
+            margin: 0 auto;
         }
         .header p {
             margin: 5px 0;
@@ -123,7 +158,7 @@
             margin-top: 15px;
             page-break-inside: avoid;
             font-size: 12pt;
-            position: fixed;
+      
             bottom: 0;
             left: 0;
             width: 100%;
@@ -131,7 +166,7 @@
         .footer p {
             margin: 5px 0;
         }
-            .print-btn {
+            .print-btn, .new-invoice-btn {
                 display: none;
             }
       }
@@ -141,16 +176,16 @@
     <div class="header">
         <table class="details">
             <tr>
-                 <img src="logo.png" alt="Logo">
+                <td colspan="3" style="text-align: center; border: none; padding: 0;">
+                    <img src="header.jpg" alt="Header">
+                </td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align: center;">
-                   
-                    <p>رقم السجل التجاري: 4650262799</p>
-               
+                    <p >رقم السجل التجاري: 4650262799</p>
                 </td>
                 <td>
-                         <p>رقم ضريبة القيمة المضافة: 311744595500003</p>
+                    <p>رقم ضريبة القيمة المضافة: 311744595500003</p>
                 </td>
             </tr>
         </table>
@@ -159,36 +194,35 @@
     <table class="details">
         <tr>
             <td>المورد: شركة عبد الغني حسين حامد للمصاعد</td>
-            <td>العنوان: العفيفة العفوة - العفيفة المروة - شارع الستين - تقاطع شارع الأمير ماجد مع شارع الأمير سلطان</td>
-     
+            <td> العنوان : المدينة المنورة -المدينة المنورة بئر
+عثمان -شارع ابو إسحاق ابو اسحاق
+الهجرى - مبنى رقم 7359 - الرمز البريدي
+42331</td>
         </tr>
         <tr>
-               <td>رقم الفاتورة: 477 - 0102</td>
-                     <td>&ensp;</td>
-            <td>تاريخ الفاتورة: 30-06-2025 17:30:10</td>
-          
-            
-        </tr>
-        <tr>
-            <td>طريقة الدفع: نقداً</td>
+            <td id="invoice_id">رقم الفاتورة: 971 - 0103</td>
             <td>&ensp;</td>
-            <td>تاريخ الاستحقاق: 30-07-2025</td>
+            <td id="date">تاريخ الفاتورة: 01-04-2026 10:30:10</td>
+        </tr>
+        <tr>
+            <td id="payment_method">طريقة الدفع: نقداً</td>
+            <td>&ensp;</td>
+            <td id="due_date">تاريخ الاستحقاق: 01-04-2026</td>
         </tr>
     </table>
     <div class="qr-section">
-
         <div id="qrcode"></div>
     </div>
     <table class="details">
         <tr>
-            <td>العميل: شركة عبد الغني حسين حامد للمصاعد</td>
-            <td>رقم السجل التجاري: 4650262799</td>
-            <td>رقم ضريبة القيمة المضافة: 311744595500003</td>
+            <td id="customer_name">العميل: الشيخ عبدالله بن محمد الرويتع </td>
+            <td id="customer_commercial_record">رقم الهوية: 1035097631</td>
+            <td id="customer_vat_number">&ensp; </td>
         </tr>
     </table>
     <table class="details">
         <tr>
-            <td>العنوان: العفيفة العفوة - العفيفة المروة - شارع الستين - تقاطع شارع الأمير ماجد مع شارع الأمير سلطان</td>
+            <td id="customer_address">العنوان: الرياض - حي الورد - شارع ابي الفتج القارئ رقم المبنى 3431 صندوق بريد 12254</td>
         </tr>
     </table>
 
@@ -203,63 +237,173 @@
         </thead>
         <tbody>
             <tr>
-                <td>عقد صيانة تركيبات برقم 0225000102</td>
-                <td>170,000</td>
-                <td>25,500</td>
-                <td>195,500</td>
+                <td id="product">عقد صيانة تركيبات برقم 01320265</td>
+                <td id="product_amount">507500</td>
+                <td id="product_vat">76,125</td>
+                <td id="product_total">583,625</td>
             </tr>
         </tbody>
     </table>
 
     <table class="details">
         <tr>
-            <td>الإجمالي: 170,000</td>
-            <td>15% ضريبة القيمة المضافة: 25,500</td>
-            <td>الإجمالي مع الضريبة: 195,500</td>
+            <td id="total_amount">الإجمالي: 507,500</td>
+            <td id="vat_amount">15% ضريبة القيمة المضافة: 76,125</td>
+            <td id="grand_total">الإجمالي مع الضريبة: 583,625</td>
         </tr>
     </table>
 
     <div class="footer">
-        <p>تمت طباعة الفاتورة بواسطة محمود عبد الرسول سيد</p>
-        <p>2025-07-01 14:01:41</p>
-        <button  class="print-btn" onclick="window.print()" style="padding: 8px 16px; font-size: 12px; cursor: pointer; margin-top: 5px;">طباعة</button>
+        <p>تمت طباعة الفاتورة بواسطة ممدوح عبدالهادئ </p>
+        <p>2026-04-01 10:30:41</p>
+        <button class="print-btn" onclick="window.print()">🖨️ طباعة الفاتورة</button>
+        <a href="invoice-form.html" class="new-invoice-btn">📝 إنشاء فاتورة جديدة</a>
     </div>
 
     <script>
         // Wait for page to load
         window.onload = function() {
-            // ZATCA Phase 1 QR Code Data
-            // Format: Seller Name|VAT Number|Total Amount|VAT Amount|Timestamp
-            const zatcaData = {
+            // Extract data from invoice HTML
+            const tables = document.querySelectorAll('table.details');
+            
+            let sellerName = "";
+            let vatNumber = "";
+            let totalAmount = "";
+            let vatAmount = "";
+            let printedBy = "";
+            let invoiceId = "";
+            let date = "";
+            let paymentMethod = "";
+            let dueDate = "";
+            let customerName = "";
+            let customerCommercialRecord = "";
+            let customerVatNumber = "";
+            let customerAddress = "";
+            let product = "";
+            let productAmount = "";
+                let timestamp = "";
+            let sellerAddress = "";
+            let commercialRecord = "";
+            let invoiceType = "فاتورة ضريبية";
+
+            //  bring all data from the link parameters if available
+                const urlParams = new URLSearchParams(window.location.search);
+
+                    product = urlParams.get('itemDescription') || "";
+                    productAmount = urlParams.get('itemAmount') || "";
+                vatAmount = urlParams.get('vatAmount') || "";
+        //             printedBy = urlParams.get('printedBy') || "";
+        //             invoiceId = urlParams.get('invoiceNumber') || "";
+        //             date = urlParams.get('invoiceDate') || "";
+        //             paymentMethod = urlParams.get('paymentMethod') || "";
+        //             dueDate = urlParams.get('dueDate') || "";
+        //             customerName = urlParams.get('customerName') || "";
+        //             customerCommercialRecord = urlParams.get('customerCommercialRecord') || "";
+        //             customerVatNumber = urlParams.get('customerVatNumber') || "";
+        //             customerAddress = urlParams.get('customerAddress') || "";
+        //             product = urlParams.get('itemDescription') || "";
+        //             productAmount = urlParams.get('itemAmount') || "";
+        //             timestamp =  new Date().toISOString(); // now timestamp if not provided
+        //             if(invoiceId) document.getElementById("invoice_id").textContent = "رقم الفاتورة: " + invoiceId;
+        //             if(date) document.getElementById("date").textContent = "تاريخ الفاتورة: " + date;
+        //             if(paymentMethod) document.getElementById("payment_method").textContent = "طريقة الدفع: " + paymentMethod;
+        //             if(dueDate) document.getElementById("due_date").textContent = "تاريخ الاستحقاق: " + dueDate;
+        //             if(customerName) document.getElementById("customer_name").textContent = "العميل: " + customerName;
+        //             if(customerCommercialRecord) document.getElementById("customer_commercial_record").textContent = "رقم السجل التجاري: " + customerCommercialRecord;
+        //             if(customerVatNumber) document.getElementById("customer_vat_number").textContent = "رقم ضريبة القيمة المضافة: " + customerVatNumber;
+        //             if(customerAddress) document.getElementById("customer_address").textContent = "العنوان: " + customerAddress;
+        //             if(product) document.getElementById("product").textContent = product;   
+        //             if(productAmount) document.getElementById("product_amount").textContent = productAmount;
+        //             if(vatAmount) document.getElementById("product_vat").textContent = vatAmount;
+        //             if(productAmount && vatAmount) document.getElementById("product_total").textContent = (parseFloat(productAmount.replace(/,/g, '')) + parseFloat(vatAmount.replace(/,/g, ''))).toLocaleString();
+        //             if(productAmount) document.getElementById("total_amount").textContent = "الإجمالي: " + productAmount;
+        //             if(vatAmount) {document.getElementById("vat_amount").textContent = "15% ضريبة القيمة المضافة: " +productAmount*0.15;
+        //              getElementById("vat_amount").textContent = "15% ضريبة القيمة المضافة: " + 507500*0.15;
+        // }
+                    if(productAmount && vatAmount) document.getElementById("grand_total").textContent = "الإجمالي مع الضريبة: " + (parseFloat(productAmount.replace(/,/g, '')) + parseFloat(vatAmount.replace(/,/g, ''))).toLocaleString(); 
+            // Parse all tables to find the data
+            tables.forEach((table, index) => {
+                const rows = table.querySelectorAll('tr');
+                rows.forEach(row => {
+                    const cells = row.querySelectorAll('td');
+                    cells.forEach(cell => {
+                        const text = cell.textContent;
+                        
+                      
+                    });
+                });
+            });
+
+            // If timestamp is empty, use current date
+            if (!timestamp) {
+                timestamp = new Date().toISOString();
+            }
+
+          function toTLV(tag, value) {
+    const textEncoder = new TextEncoder();
+    const valueBytes = textEncoder.encode(value);
+    const length = valueBytes.length;
+
+    return new Uint8Array([
+        tag,
+        length,
+        ...valueBytes
+    ]);
+}
+ let grandTotal = document.getElementById("grand_total").textContent.replace("الإجمالي مع الضريبة: ", "").trim();
+  vatAmount = document.getElementById("vat_amount").textContent.replace("15% ضريبة القيمة المضافة: ", "").trim();
+  let dateElement = document.getElementById("date").textContent.replace("تاريخ الفاتورة: ", "").trim();
+  // Convert date to ISO format if possible
+    let isoDate = "";
+    try {
+        const [day, month, year] = dateElement.split(" ")[0].split("-");
+        const time = dateElement.split(" ")[1] || "00:00:00";
+        isoDate = `${year}-${month}-${day}T${time}`;
+    } catch (e) {
+        isoDate = new Date().toISOString(); // fallback to current date if parsing fails
+    }
+function generateZatcaQR(data) {
+    const seller = toTLV(1, data.sellerName);
+    const vat = toTLV(2, data.vatNumber);
+    const time = toTLV(3, data.timestamp);
+    const total = toTLV(4, data.totalAmount.toFixed(2));
+    const vatAmount = toTLV(5, data.vatAmount.toFixed(2));
+
+    const totalLength = seller.length + vat.length + time.length + total.length + vatAmount.length;
+
+    const buffer = new Uint8Array(totalLength);
+
+    let offset = 0;
+    [seller, vat, time, total, vatAmount].forEach(arr => {
+        buffer.set(arr, offset);
+        offset += arr.length;
+    });
+
+    // تحويل إلى Base64
+    const base64 = btoa(String.fromCharCode(...buffer));
+
+    return base64;
+}       
+
+            // Generate ZATCA QR code
+            const qrData = {
                 sellerName: "شركة عبد الغني حسين حامد للمصاعد",
                 vatNumber: "311744595500003",
-                totalAmount: "195500",
-                vatAmount: "25500",
-                timestamp: "2025-06-30T17:30:10Z"
+                timestamp: isoDate,
+                totalAmount: parseFloat(grandTotal.replace(/,/g, '')),
+                vatAmount: parseFloat(vatAmount.replace(/,/g, ''))
             };
 
-            // Create QR code string in ZATCA format
-            const qrString = zatcaData.sellerName + "|" + zatcaData.vatNumber + "|" + zatcaData.totalAmount + "|" + zatcaData.vatAmount + "|" + zatcaData.timestamp;
+            const qrCodeBase64 = generateZatcaQR(qrData);
 
-            // Generate QR code using qrcode-generator library
-            try {
-                var typeNumber = 0;
-                var errorCorrectionLevel = 'L';
-                var qr = qrcode(typeNumber, errorCorrectionLevel);
-                qr.addData(qrString);
-                qr.make();
-
-                // Create QR code image
-                var qrContainer = document.getElementById("qrcode");
-                qrContainer.innerHTML = qr.createImgTag(4, 10);
-                
-                console.log("ZATCA Phase 1 QR Code Generated");
-                console.log("QR Data:", qrString);
-            } catch (e) {
-                console.error("Error generating QR code:", e);
-                document.getElementById("qrcode").innerHTML = "<p style='color:red'>خطأ: " + e.message + "</p>";
-            }
+            // Create QR code element
+            const qrCodeElement = document.getElementById('qrcode');
+            const qr = qrcode(0, 'L');
+            qr.addData(qrCodeBase64);
+            qr.make();
+            qrCodeElement.innerHTML = qr.createImgTag(4);
         };
+
     </script>
 </body>
 </html>

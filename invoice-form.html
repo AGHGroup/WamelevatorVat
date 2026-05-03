@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء فاتورة ضريبية - ZATCA Phase 1</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; direction: rtl; text-align: right; margin: 0; padding: 20px; background: #f0f0f0; min-height: 100vh; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #2c3e50; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 2px solid #3498db; }
+        .form-section { margin-bottom: 25px; }
+        .form-section h3 { color: #3498db; margin-bottom: 15px; padding: 10px; background: #ecf0f1; border-radius: 5px; }
+        .form-row { display: flex; flex-wrap: wrap; margin: 10px 0; }
+        .form-group { flex: 1 1 250px; margin: 8px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #3498db; box-shadow: 0 0 5px rgba(52, 152, 219, 0.3); }
+        .btn-group { margin-top: 30px; text-align: center; }
+        .btn { padding: 15px 40px; margin: 10px; border: none; border-radius: 5px; cursor: pointer; font-size: 18px; font-weight: bold; }
+        .btn-primary { background: #3498db; color: white; }
+        .btn-primary:hover { background: #2980b9; }
+        .btn-secondary { background: #95a5a6; color: white; }
+        .btn-secondary:hover { background: #7f8c8d; }
+        .info-box { background: #fff3cd; border: 1px solid #ffc107; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .info-box p { margin: 5px 0; color: #856404; }
+        .hidden { display: none; }
+        .invoice-type-box { background: #e8f5e9; border: 1px solid #4caf50; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .invoice-type-box h4 { margin: 0 0 10px 0; color: #2e7d32; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📄 إنشاء فاتورة ضريبية</h1>
+        
+        <div class="info-box">
+            <p>💡 ملاحظة: يمكنك ترك الحقول فارغة لاستخدام القيم الافتراضية</p>
+        </div>
+        
+        <div class="invoice-type-box" id="invoiceTypeBox">
+            <h4>📋 نوع الفاتورة: <span id="invoiceTypeLabel">فاتورة ضريبية</span></h4>
+            <p id="invoiceTypeDesc">الفاتورة ضريبية كاملة - تتضمن جميع بيانات العميل</p>
+        </div>
+        
+        <div class="form-section">
+            <h3>معلومات المورد</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>اسم المورد:</label>
+                    <input type="text" id="sellerName" placeholder="أدخل اسم المورد" value="شركة عبد الغني حسين حامد للمصاعد">
+                </div>
+                <div class="form-group">
+                    <label>رقم السجل التجاري:</label>
+                    <input type="text" id="commercialRecord" placeholder="أدخل رقم السجل" value="4650262799">
+                </div>
+                <div class="form-group">
+                    <label>رقم ضريبة القيمة المضافة:</label>
+                    <input type="text" id="vatNumber" placeholder="أدخل رقم الضريبة" value="311744595500003">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>عنوان المورد:</label>
+                    <input type="text" id="sellerAddress" placeholder="أدخل العنوان" value="العفيفة العفوة - العفيفة المروة - شارع الستين">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>معلومات الفاتورة</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>رقم الفاتورة:</label>
+                    <input type="text" id="invoiceNumber" placeholder="أدخل رقم الفاتورة" value="477 - 0102">
+                </div>
+                <div class="form-group">
+                    <label>تاريخ الفاتورة:</label>
+                    <input type="datetime-local" id="invoiceDate">
+                </div>
+                <div class="form-group">
+                    <label>طريقة الدفع:</label>
+                    <select id="paymentMethod">
+                        <option value="نقداً" selected>نقداً</option>
+                        <option value="تحويل بنكي">تحويل بنكي</option>
+                        <option value="شيك">شيك</option>
+                        <option value="آجل">آجل</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>تاريخ الاستحقاق:</label>
+                    <input type="date" id="dueDate">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>معلومات العميل</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>نوع العميل:</label>
+                    <select id="customerType" onchange="toggleCustomerFields()">
+                        <option value="company">شركة / منشأة</option>
+                        <option value="individual">فرد</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>اسم العميل:</label>
+                    <input type="text" id="customerName" placeholder="أدخل اسم العميل" value="شركة عبد الغني حسين حامد للمصاعد">
+                </div>
+            </div>
+            <div class="form-row" id="companyFields">
+                <div class="form-group">
+                    <label>رقم سجل العميل:</label>
+                    <input type="text" id="customerCommercialRecord" placeholder="أدخل رقم السجل" value="4650262799">
+                </div>
+                <div class="form-group">
+                    <label>رقم ضريبة العميل:</label>
+                    <input type="text" id="customerVatNumber" placeholder="أدخل رقم الضريبة" value="311744595500003">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>عنوان العميل:</label>
+                    <input type="text" id="customerAddress" placeholder="أدخل العنوان" value="العفيفة العفوة">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>تفاصيل الفاتورة</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>الصنف/الخدمة:</label>
+                    <input type="text" id="itemDescription" placeholder="أدخل وصف الصنف" value="عقد صيانة تركيبات برقم 0225000102">
+                </div>
+                <div class="form-group">
+                    <label>المبلغ:</label>
+                    <input type="number" id="itemAmount" placeholder="أدخل المبلغ" value="170000" step="0.01">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>نسبة الضريبة (%):</label>
+                    <input type="number" id="vatPercent" value="15" min="0" max="100">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h3>معلومات إضافية</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>اسم المُطبع:</label>
+                    <input type="text" id="printedBy" placeholder="أدخل اسم المُطبع" value="محمود عبد الرسول سيد">
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" onclick="generateAndPrintInvoice()">🖨️ إنشاء وطباعة الفاتورة</button>
+            <button type="button" class="btn btn-secondary" onclick="resetForm()">🔄 إعادة تعيين</button>
+            <a href="invoice.html" class="btn btn-secondary" style="text-decoration: none; display: inline-block; padding: 15px 40px; margin: 10px; background: #95a5a6; color: white; border-radius: 5px; font-size: 18px; font-weight: bold;">📄 عرض الفاتورة</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            document.getElementById('invoiceDate').value = now.toISOString().slice(0, 16);
+            
+            const dueDate = new Date();
+            dueDate.setDate(dueDate.getDate() + 30);
+            document.getElementById('dueDate').value = dueDate.toISOString().slice(0, 10);
+        });
+
+        function toggleCustomerFields() {
+            const customerType = document.getElementById('customerType').value;
+            const companyFields = document.getElementById('companyFields');
+            const invoiceTypeLabel = document.getElementById('invoiceTypeLabel');
+            const invoiceTypeDesc = document.getElementById('invoiceTypeDesc');
+            
+            if (customerType === 'individual') {
+                companyFields.classList.add('hidden');
+                invoiceTypeLabel.textContent = "فاتورة ضريبية مبسطة";
+                invoiceTypeDesc.textContent = "فاتورة مبسطة للأفراد";
+            } else {
+                companyFields.classList.remove('hidden');
+                invoiceTypeLabel.textContent = "فاتورة ضريبية";
+                invoiceTypeDesc.textContent = "الفاتورة ضريبية كاملة";
+            }
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        }
+
+        function escapeJsString(str) {
+            if (!str) return '';
+            return str.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n').replace(/\r/g, '\\r');
+        }
+
+        function formatNumber(num) {
+            return num.toLocaleString('ar-SA');
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            return day + '-' + month + '-' + year + ' ' + hours + ':' + minutes + ':' + seconds;
+        }
+
+        function formatDateSimple(dateString) {
+            const date = new Date(dateString);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            return day + '-' + month + '-' + year;
+        }
+
+        function generateAndPrintInvoice() {
+            try {
+                const sellerName = document.getElementById('sellerName').value || 'شركة';
+                const commercialRecord = document.getElementById('commercialRecord').value || '000000';
+                const vatNumber = document.getElementById('vatNumber').value || '000000';
+                const sellerAddress = document.getElementById('sellerAddress').value || 'العنوان';
+                
+                const invoiceNumber = document.getElementById('invoiceNumber').value || '001';
+                const invoiceDate = document.getElementById('invoiceDate').value;
+                const paymentMethod = document.getElementById('paymentMethod').value || 'نقداً';
+                const dueDate = document.getElementById('dueDate').value;
+                
+                const customerType = document.getElementById('customerType').value;
+                const customerName = document.getElementById('customerName').value || sellerName;
+                const customerCommercialRecord = document.getElementById('customerCommercialRecord').value || commercialRecord;
+                const customerVatNumber = document.getElementById('customerVatNumber').value || vatNumber;
+                const customerAddress = document.getElementById('customerAddress').value || sellerAddress;
+                
+                const itemDescription = document.getElementById('itemDescription').value || 'خدمة';
+                const itemAmount = parseFloat(document.getElementById('itemAmount').value) || 1000;
+                const vatPercent = parseFloat(document.getElementById('vatPercent').value) || 15;
+                
+                const printedBy = document.getElementById('printedBy').value || 'المستخدم';
+                
+                const isIndividual = customerType === 'individual';
+                const invoiceType = isIndividual ? 'simplified' : 'standard';
+                
+                const vatAmount = itemAmount * (vatPercent / 100);
+                const totalAmount = itemAmount + vatAmount;
+                
+                const invoiceDateFormatted = formatDate(invoiceDate);
+                const dueDateFormatted = dueDate ? formatDateSimple(dueDate) : formatDateSimple(new Date(Date.now() + 30*24*60*60*1000).toISOString());
+                const timestamp = new Date(invoiceDate).toISOString();
+                
+            //    I want to change the invoice.html file to include the new fields and formatting, and then open it in a new tab for printing. I will pass the data through URL parameters for simplicity.
+                const params = new URLSearchParams({
+                    // بيانات المورد
+                    sellerName: escapeJsString(sellerName),
+                    commercialRecord: escapeJsString(commercialRecord),
+                    vatNumber: escapeJsString(vatNumber),
+                    sellerAddress: escapeJsString(sellerAddress),
+                    // بيانات الفاتورة
+                    invoiceNumber: escapeJsString(invoiceNumber),
+                    invoiceDate: escapeJsString(invoiceDateFormatted),
+                    paymentMethod: escapeJsString(paymentMethod),
+                    dueDate: escapeJsString(dueDateFormatted),
+                    customerType: escapeJsString(customerType),
+                    customerName: escapeJsString(customerName),
+                    customerCommercialRecord: escapeJsString(customerCommercialRecord),
+                    customerVatNumber: escapeJsString(customerVatNumber),
+                    customerAddress: escapeJsString(customerAddress),
+                    itemDescription: escapeJsString(itemDescription),
+                    itemAmount: itemAmount.toFixed(2),
+                    vatPercent: vatPercent.toString(),
+                    printedBy: escapeJsString(printedBy),
+                    timestamp: timestamp,
+                    invoiceType: invoiceType
+                });
+                const url = 'invoice.html?' + params.toString();
+                window.open(url, '_blank');
+           
+                
+            } catch (e) {
+                console.error('Invoice Error:', e);
+                alert('خطأ: ' + e.message);
+            }
+        }
+
+        function resetForm() {
+            if (confirm('هل أنت متأكد من إعادة تعيين النموذج؟')) {
+                document.getElementById('sellerName').value = 'شركة عبد الغني حسين حامد للمصاعد';
+                document.getElementById('commercialRecord').value = '4650262799';
+                document.getElementById('vatNumber').value = '311744595500003';
+                document.getElementById('sellerAddress').value = 'العفيفة العفوة - العفيفة المروة - شارع الستين';
+                document.getElementById('invoiceNumber').value = '477 - 0102';
+                document.getElementById('paymentMethod').value = 'نقداً';
+                document.getElementById('customerType').value = 'company';
+                document.getElementById('customerName').value = 'شركة عبد الغني حسين حامد للمصاعد';
+                document.getElementById('customerCommercialRecord').value = '4650262799';
+                document.getElementById('customerVatNumber').value = '311744595500003';
+                document.getElementById('customerAddress').value = 'العفيفة العفوة';
+                document.getElementById('itemDescription').value = 'عقد صيانة تركيبات برقم 0225000102';
+                document.getElementById('itemAmount').value = '170000';
+                document.getElementById('vatPercent').value = '15';
+                document.getElementById('printedBy').value = 'محمود عبد الرسول سيد';
+                
+                const now = new Date();
+                now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+                document.getElementById('invoiceDate').value = now.toISOString().slice(0, 16);
+                
+                const dueDate = new Date();
+                dueDate.setDate(dueDate.getDate() + 30);
+                document.getElementById('dueDate').value = dueDate.toISOString().slice(0, 10);
+                
+                toggleCustomerFields();
+            }
+        }
+    </script>
+</body>
+</html>
