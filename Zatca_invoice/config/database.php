@@ -71,7 +71,7 @@ return [
             'service_name' => env('ORA_SERVICE_NAME', ''),
             'username' => env('ORA_USERNAME', ''),
             'password' => env('ORA_PASSWORD', ''),
-            'charset' => '',
+            'charset' => env('ORA_CHARSET', 'AL32UTF8'),
             'prefix' => '',
             'prefix_indexes' => true,
             'options' => [
