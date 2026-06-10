@@ -38,7 +38,7 @@ class LCETablesController extends Controller
     public function show(string $table)
     {
         $columns = LCE_Tables::getTableColumns($table);
-        $rows    = LCE_Tables::getTableRows($table, 20);
+        $rows    = LCE_Tables::getTableRows($table);
         return view('lce.table-data', compact('table', 'columns', 'rows'));
     }
 

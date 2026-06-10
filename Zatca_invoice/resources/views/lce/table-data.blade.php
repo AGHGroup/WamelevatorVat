@@ -44,14 +44,17 @@
                     @foreach ($rows as $row)
                         <tr>
                             @foreach ($columns as $col)
+                                @if ($col->COLUMN_NAME !== 'RN')
                                 <td title="{{ $row->{$col->COLUMN_NAME} ?? '' }}">
                                     {{ $row->{$col->COLUMN_NAME} ?? '' }}
                                 </td>
+                                @endif
                             @endforeach
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+            {{ $rows->links() }}
         </div>
     @endif
 </body>
