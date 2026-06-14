@@ -1,61 +1,88 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>{{ $table }}</title>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
-        h1 { color: #333; }
-        a.back { display: inline-block; margin-bottom: 16px; color: #4a90e2; text-decoration: none; }
-        a.back:hover { text-decoration: underline; }
-        .meta { margin-bottom: 16px; font-size: 13px; color: #666; }
-        .meta span { margin-right: 16px; background: #fff; padding: 4px 10px; border-radius: 4px; border: 1px solid #ddd; }
-        .wrap { overflow-x: auto; }
-        table { border-collapse: collapse; width: 100%; background: #fff; font-size: 13px; }
-        th { background: #4a90e2; color: #fff; padding: 8px 12px; text-align: left; white-space: nowrap; }
-        td { padding: 6px 12px; border-bottom: 1px solid #eee; white-space: nowrap; max-width: 250px; overflow: hidden; text-overflow: ellipsis; }
-        tr:hover td { background: #f0f7ff; }
-        .empty { color: #999; font-style: italic; padding: 16px; }
-    </style>
-</head>
-<body>
-    <a class="back" href="{{ route('oracle.tables') }}">← All Tables</a>
-    <h1>{{ $table }}</h1>
+@extends('layouts.app')
 
-    <div class="meta">
-        <span>{{ count($columns) }} columns</span>
-        <span>{{ count($rows) }} rows shown (max 20)</span>
-    </div>
+@section('title', $table)
+@section('page-title', $table)
 
-    @if (count($rows) === 0)
-        <p class="empty">No rows found in this table.</p>
-    @else
-        <div class="wrap">
-            <table>
-                <thead>
-                    <tr>
-                        @foreach ($columns as $col)
-                            <th title="{{ $col->DATA_TYPE }}">{{ $col->COLUMN_NAME }}</th>
-                        @endforeach
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($rows as $row)
-                        <tr>
-                            @foreach ($columns as $col)
-                                @if ($col->COLUMN_NAME !== 'RN')
-                                <td title="{{ $row->{$col->COLUMN_NAME} ?? '' }}">
-                                    {{ $row->{$col->COLUMN_NAME} ?? '' }}
-                                </td>
-                                @endif
-                            @endforeach
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            {{ $rows->links() }}
+@section('breadcrumb')
+  <li class="breadcrumb-item">
+    <a href="{{ route('oracle.tables') }}">{{ __('lce.breadcrumb') }}</a>
+  </li>
+  <li class="breadcrumb-item active">{{ $table }}</li>
+@endsection
+
+@section('page-actions')
+  <a href="{{ route('oracle.tables') }}" class="btn btn-outline-secondary btn-sm">
+    <i class="bx bx-arrow-back me-1"></i>
+    {{ __('lce.back_to_tables') }}
+  </a>
+@endsection
+
+@section('content')
+
+  <div class="row g-3 mb-4">
+    <div class="col-auto">
+      <div class="card border-0 shadow-sm px-4 py-3 d-flex flex-row align-items-center gap-3">
+        <span class="avatar avatar-sm bg-label-primary rounded">
+          <i class="bx bx-columns"></i>
+        </span>
+        <div>
+          <div class="fw-semibold">{{ count($columns) }}</div>
+          <small class="text-body-secondary">{{ __('lce.columns') }}</small>
         </div>
-    @endif
-</body>
-</html>
+      </div>
+    </div>
+    <div class="col-auto">
+      <div class="card border-0 shadow-sm px-4 py-3 d-flex flex-row align-items-center gap-3">
+        <span class="avatar avatar-sm bg-label-success rounded">
+          <i class="bx bx-list-ul"></i>
+        </span>
+        <div>
+          <div class="fw-semibold">{{ $rows->total() }}</div>
+          <small class="text-body-secondary">{{ __('lce.records') }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-datatable table-responsive">
+      @if ($rows->isEmpty())
+        <div class="text-center py-5 text-body-secondary">
+          <i class="bx bx-data display-4 d-block mb-2"></i>
+          {{ __('lce.no_rows') }}
+        </div>
+      @else
+        <table class="table table-hover table-sm mb-0">
+          <thead class="table-dark">
+            <tr>
+              @foreach ($columns as $col)
+                @if ($col->COLUMN_NAME !== 'RN')
+                  <th class="text-nowrap small" title="{{ $col->DATA_TYPE }}">
+                    {{ $col->COLUMN_NAME }}
+                  </th>
+                @endif
+              @endforeach
+            </tr>
+          </thead>
+          <tbody>
+            @foreach ($rows as $row)
+              <tr>
+                @foreach ($columns as $col)
+                  @if ($col->COLUMN_NAME !== 'RN')
+                    <td class="small text-nowrap"
+                        style="max-width:220px;overflow:hidden;text-overflow:ellipsis;"
+                        title="{{ $row->{$col->COLUMN_NAME} ?? '' }}">
+                      {{ $row->{$col->COLUMN_NAME} ?? '' }}
+                    </td>
+                  @endif
+                @endforeach
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+        <div class="p-3">{{ $rows->links() }}</div>
+      @endif
+    </div>
+  </div>
+
+@endsection

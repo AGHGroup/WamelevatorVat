@@ -1,0 +1,357 @@
+/*
+ * ZATCA Invoice System — Enterprise Theme
+ * Design System: Government/Public Service + Invoice & Billing
+ * Style: Minimalism + Flat Design + Accessible & Ethical
+ * Palette: Professional Navy #0F172A + Trust Blue #0369A1
+ */
+
+/* ── Font ─────────────────────────────────────────────────── */
+:root {
+  --zatca-navy:        #0F172A;
+  --zatca-navy-mid:    #1E293B;
+  --zatca-navy-soft:   #334155;
+  --zatca-blue:        #0369A1;
+  --zatca-blue-light:  #0EA5E9;
+  --zatca-bg:          #F8FAFC;
+  --zatca-surface:     #FFFFFF;
+  --zatca-text:        #0F172A;
+  --zatca-muted:       #64748B;
+  --zatca-border:      #E2E8F0;
+  --zatca-success:     #16A34A;
+  --zatca-warning:     #D97706;
+  --zatca-danger:      #DC2626;
+  --zatca-info:        #0369A1;
+  --zatca-radius:      0.5rem;
+  --zatca-shadow-sm:   0 1px 3px 0 rgb(0 0 0/0.08), 0 1px 2px -1px rgb(0 0 0/0.06);
+  --zatca-shadow:      0 4px 6px -1px rgb(0 0 0/0.08), 0 2px 4px -2px rgb(0 0 0/0.06);
+  --zatca-shadow-lg:   0 10px 15px -3px rgb(0 0 0/0.08), 0 4px 6px -4px rgb(0 0 0/0.06);
+}
+
+/* ── Bootstrap primary token override ───────────────────────── */
+[data-bs-theme=light], :root {
+  --bs-primary:              #0369A1;
+  --bs-primary-rgb:          3, 105, 161;
+  --bs-primary-text-emphasis:#014e7a;
+  --bs-primary-bg-subtle:    #E0F2FE;
+  --bs-primary-border-subtle:#BAE6FD;
+  --bs-body-bg:              #F8FAFC;
+  --bs-body-color:           #334155;
+  --bs-border-color:         #E2E8F0;
+  --bs-emphasis-color:       #0F172A;
+  --bs-secondary-color:      #64748B;
+}
+
+/* ── Page background ─────────────────────────────────────────── */
+body {
+  background-color: var(--zatca-bg);
+  color: var(--zatca-text);
+}
+
+/* ── Sidebar — dark navy ────────────────────────────────────── */
+.layout-menu.bg-menu-theme {
+  background-color: var(--zatca-navy) !important;
+  border-inline-end: none !important;
+  box-shadow: 2px 0 8px rgb(0 0 0 / 0.12);
+}
+
+.layout-menu .app-brand-text {
+  color: #F8FAFC !important;
+  letter-spacing: .04em;
+  font-weight: 700;
+}
+
+.layout-menu .menu-inner > .menu-header .menu-header-text {
+  color: #475569 !important;
+  font-size: .6875rem;
+  letter-spacing: .08em;
+  font-weight: 600;
+}
+
+.layout-menu .menu-item .menu-link {
+  color: #94A3B8 !important;
+  border-radius: 0.375rem;
+  margin-inline: .5rem;
+  transition: background .15s, color .15s;
+}
+
+.layout-menu .menu-item .menu-link:hover {
+  background-color: rgba(255,255,255,.07) !important;
+  color: #F1F5F9 !important;
+}
+
+.layout-menu .menu-item.active > .menu-link:not(.menu-toggle),
+.layout-menu .menu-item.active > .menu-link {
+  background-color: var(--zatca-blue) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 8px rgb(3 105 161 / 0.35);
+}
+
+.layout-menu .menu-item .menu-icon {
+  color: inherit !important;
+}
+
+.layout-menu .layout-menu-toggle {
+  color: #94A3B8 !important;
+}
+.layout-menu .layout-menu-toggle:hover {
+  color: #F1F5F9 !important;
+}
+
+.layout-menu .menu-divider {
+  border-color: rgba(255,255,255,.08) !important;
+}
+
+/* Sidebar sub-menu */
+.layout-menu .menu-sub .menu-item .menu-link {
+  color: #94A3B8 !important;
+}
+.layout-menu .menu-sub .menu-item.active > .menu-link {
+  color: var(--zatca-blue-light) !important;
+  background-color: rgba(14,165,233,.1) !important;
+}
+
+/* Active left indicator */
+.layout-wrapper:not(.layout-horizontal) .menu-vertical .menu-inner > .menu-item.active::before {
+  background-color: var(--zatca-blue) !important;
+}
+
+/* ── Navbar ──────────────────────────────────────────────────── */
+.layout-navbar.bg-navbar-theme {
+  background-color: var(--zatca-surface) !important;
+  border-block-end: 1px solid var(--zatca-border) !important;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.06) !important;
+}
+
+.layout-navbar .nav-item .input-group-text,
+.layout-navbar .nav-item .form-control {
+  background: transparent;
+}
+
+/* ── Footer ──────────────────────────────────────────────────── */
+.footer.bg-footer-theme {
+  background-color: var(--zatca-surface) !important;
+  border-block-start: 1px solid var(--zatca-border) !important;
+}
+
+/* ── Cards ───────────────────────────────────────────────────── */
+.card {
+  border: 1px solid var(--zatca-border) !important;
+  border-radius: var(--zatca-radius) !important;
+  box-shadow: var(--zatca-shadow-sm) !important;
+  transition: box-shadow .2s, transform .2s;
+}
+.card:hover {
+  box-shadow: var(--zatca-shadow) !important;
+}
+.card-header {
+  background-color: transparent !important;
+  border-block-end: 1px solid var(--zatca-border) !important;
+  padding-block: 1rem !important;
+}
+
+/* ── Stat cards ──────────────────────────────────────────────── */
+.zatca-stat-card {
+  border: 1px solid var(--zatca-border) !important;
+  border-radius: var(--zatca-radius) !important;
+  background: var(--zatca-surface);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: .375rem;
+  transition: box-shadow .2s, transform .2s;
+}
+.zatca-stat-card:hover {
+  box-shadow: var(--zatca-shadow) !important;
+  transform: translateY(-2px);
+}
+.zatca-stat-card .stat-label {
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--zatca-muted);
+}
+.zatca-stat-card .stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--zatca-navy);
+  line-height: 1;
+}
+.zatca-stat-card .stat-desc {
+  font-size: .8125rem;
+  color: var(--zatca-muted);
+}
+.zatca-stat-icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: .5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+.zatca-stat-icon.icon-blue    { background: #E0F2FE; color: #0369A1; }
+.zatca-stat-icon.icon-green   { background: #DCFCE7; color: #16A34A; }
+.zatca-stat-icon.icon-amber   { background: #FEF3C7; color: #D97706; }
+.zatca-stat-icon.icon-cyan    { background: #CFFAFE; color: #0891B2; }
+
+/* ── Buttons ─────────────────────────────────────────────────── */
+.btn-primary {
+  background-color: var(--zatca-blue) !important;
+  border-color: var(--zatca-blue) !important;
+  font-weight: 500;
+}
+.btn-primary:hover {
+  background-color: #025d8e !important;
+  border-color: #025d8e !important;
+}
+.btn-outline-primary {
+  color: var(--zatca-blue) !important;
+  border-color: var(--zatca-blue) !important;
+}
+.btn-outline-primary:hover {
+  background-color: var(--zatca-blue) !important;
+  color: #fff !important;
+}
+
+/* ── Badges / Pills ──────────────────────────────────────────── */
+.badge.bg-label-primary  { background: #E0F2FE !important; color: #0369A1 !important; }
+.badge.bg-label-success  { background: #DCFCE7 !important; color: #16A34A !important; }
+.badge.bg-label-warning  { background: #FEF3C7 !important; color: #D97706 !important; }
+.badge.bg-label-danger   { background: #FEE2E2 !important; color: #DC2626 !important; }
+.badge.bg-label-info     { background: #CFFAFE !important; color: #0891B2 !important; }
+.badge.bg-label-secondary{ background: #F1F5F9 !important; color: #475569 !important; }
+
+/* ── Avatar initials ─────────────────────────────────────────── */
+.avatar-initial.bg-label-primary { background: #E0F2FE !important; color: #0369A1 !important; }
+.avatar-initial.bg-label-success { background: #DCFCE7 !important; color: #16A34A !important; }
+.avatar-initial.bg-label-warning { background: #FEF3C7 !important; color: #D97706 !important; }
+.avatar-initial.bg-label-info    { background: #CFFAFE !important; color: #0891B2 !important; }
+
+/* ── Page header ─────────────────────────────────────────────── */
+.zatca-page-header {
+  padding-block-end: 1.25rem;
+  margin-block-end: 1.5rem;
+  border-block-end: 1px solid var(--zatca-border);
+}
+.zatca-page-header h4 {
+  font-weight: 700;
+  color: var(--zatca-navy);
+  margin: 0 0 .25rem;
+  font-size: 1.25rem;
+}
+
+/* ── Breadcrumb ──────────────────────────────────────────────── */
+.breadcrumb-item + .breadcrumb-item::before { color: var(--zatca-muted); }
+.breadcrumb-item a { color: var(--zatca-blue); text-decoration: none; }
+.breadcrumb-item.active { color: var(--zatca-muted); }
+
+/* ── Tables ──────────────────────────────────────────────────── */
+.table th {
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--zatca-muted) !important;
+}
+.table-dark th {
+  background-color: var(--zatca-navy-mid) !important;
+  color: #CBD5E1 !important;
+}
+
+/* ── Lang toggle pill ────────────────────────────────────────── */
+.zatca-lang-btn {
+  background: var(--zatca-navy);
+  color: #F8FAFC !important;
+  border: none !important;
+  font-size: .8125rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  padding: .25rem .75rem;
+  border-radius: 1rem;
+  transition: background .15s;
+}
+.zatca-lang-btn:hover {
+  background: var(--zatca-blue) !important;
+  color: #fff !important;
+}
+
+/* ── Quick action cards ──────────────────────────────────────── */
+.zatca-action-item {
+  display: flex;
+  align-items: center;
+  gap: .875rem;
+  padding: .875rem 1rem;
+  border-radius: .5rem;
+  border: 1px solid var(--zatca-border);
+  background: var(--zatca-surface);
+  color: var(--zatca-text) !important;
+  text-decoration: none !important;
+  transition: border-color .15s, box-shadow .15s, transform .15s;
+  font-weight: 500;
+  font-size: .9375rem;
+}
+.zatca-action-item:hover {
+  border-color: var(--zatca-blue);
+  box-shadow: 0 0 0 3px rgb(3 105 161 / .1);
+  transform: translateX(2px);
+  color: var(--zatca-blue) !important;
+}
+[dir="rtl"] .zatca-action-item:hover {
+  transform: translateX(-2px);
+}
+.zatca-action-item .action-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: .375rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.125rem;
+  flex-shrink: 0;
+}
+
+/* ── Invoice status badges ───────────────────────────────────── */
+.status-draft   { background:#F1F5F9; color:#475569; }
+.status-sent    { background:#E0F2FE; color:#0369A1; }
+.status-paid    { background:#DCFCE7; color:#16A34A; }
+.status-overdue { background:#FEE2E2; color:#DC2626; }
+.status-badge {
+  font-size: .6875rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  padding: .2rem .625rem;
+  border-radius: 1rem;
+}
+
+/* ── ZATCA brand stripe in sidebar ──────────────────────────── */
+.zatca-brand-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  background: var(--zatca-blue);
+  border-radius: .5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.125rem;
+  flex-shrink: 0;
+}
+
+/* ── Focus rings (accessibility) ─────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--zatca-blue);
+  outline-offset: 2px;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+
+/* ── Responsive helpers ──────────────────────────────────────── */
+@media (max-width: 575.98px) {
+  .zatca-stat-card .stat-value { font-size: 1.5rem; }
+  .zatca-stat-card { padding: 1rem; }
+}

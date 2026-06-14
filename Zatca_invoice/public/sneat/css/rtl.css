@@ -1,0 +1,311 @@
+/*
+ * rtl.css – RTL & Arabic language overrides for Sneat Bootstrap template
+ *
+ * The template's core layout (core.css) already uses CSS logical properties
+ * (inset-inline-start, padding-inline-start, margin-inline-end, etc.), so the
+ * sidebar, navbar, and menu items flip automatically when dir="rtl" is set on
+ * <html>. This file only needs to handle:
+ *   1. Bootstrap 5 utility classes that still use physical properties
+ *   2. A few component-level physical-property fixes
+ *   3. The offcanvas/collapsed menu translateX direction
+ *   4. Arabic font injection
+ *****************************************************************************/
+
+/* ============================================================
+   Arabic font
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap');
+
+[dir="rtl"] {
+  font-family: 'Cairo', sans-serif;
+}
+
+/* ============================================================
+   Bootstrap 5 utility RTL flips
+   (Bootstrap 5 compiled CSS uses physical left/right properties)
+   ============================================================ */
+
+/* Text alignment */
+[dir="rtl"] .text-start  { text-align: right !important; }
+[dir="rtl"] .text-end    { text-align: left  !important; }
+
+/* Float */
+[dir="rtl"] .float-start { float: right !important; }
+[dir="rtl"] .float-end   { float: left  !important; }
+
+/* Margin start/end — swap ms-* ↔ me-* */
+[dir="rtl"] .ms-auto { margin-right: auto   !important; margin-left: unset !important; }
+[dir="rtl"] .me-auto { margin-left:  auto   !important; margin-right: unset !important; }
+
+[dir="rtl"] .ms-0  { margin-right: 0       !important; margin-left: unset !important; }
+[dir="rtl"] .ms-1  { margin-right: .25rem  !important; margin-left: unset !important; }
+[dir="rtl"] .ms-2  { margin-right: .5rem   !important; margin-left: unset !important; }
+[dir="rtl"] .ms-3  { margin-right: 1rem    !important; margin-left: unset !important; }
+[dir="rtl"] .ms-4  { margin-right: 1.5rem  !important; margin-left: unset !important; }
+[dir="rtl"] .ms-5  { margin-right: 3rem    !important; margin-left: unset !important; }
+[dir="rtl"] .me-0  { margin-left: 0        !important; margin-right: unset !important; }
+[dir="rtl"] .me-1  { margin-left: .25rem   !important; margin-right: unset !important; }
+[dir="rtl"] .me-2  { margin-left: .5rem    !important; margin-right: unset !important; }
+[dir="rtl"] .me-3  { margin-left: 1rem     !important; margin-right: unset !important; }
+[dir="rtl"] .me-4  { margin-left: 1.5rem   !important; margin-right: unset !important; }
+[dir="rtl"] .me-5  { margin-left: 3rem     !important; margin-right: unset !important; }
+
+@media (min-width: 768px) {
+  [dir="rtl"] .ms-md-auto { margin-right: auto !important; margin-left: unset !important; }
+  [dir="rtl"] .me-md-auto { margin-left:  auto !important; margin-right: unset !important; }
+}
+
+/* Negative margins */
+[dir="rtl"] .ms-n1 { margin-right: -.25rem !important; margin-left: unset !important; }
+[dir="rtl"] .ms-n2 { margin-right: -.5rem  !important; margin-left: unset !important; }
+[dir="rtl"] .ms-n3 { margin-right: -1rem   !important; margin-left: unset !important; }
+[dir="rtl"] .me-n1 { margin-left:  -.25rem !important; margin-right: unset !important; }
+[dir="rtl"] .me-n2 { margin-left:  -.5rem  !important; margin-right: unset !important; }
+[dir="rtl"] .me-n3 { margin-left:  -1rem   !important; margin-right: unset !important; }
+
+/* Padding start/end */
+[dir="rtl"] .ps-0  { padding-right: 0       !important; padding-left: unset !important; }
+[dir="rtl"] .ps-1  { padding-right: .25rem  !important; padding-left: unset !important; }
+[dir="rtl"] .ps-2  { padding-right: .5rem   !important; padding-left: unset !important; }
+[dir="rtl"] .ps-3  { padding-right: 1rem    !important; padding-left: unset !important; }
+[dir="rtl"] .ps-4  { padding-right: 1.5rem  !important; padding-left: unset !important; }
+[dir="rtl"] .ps-5  { padding-right: 3rem    !important; padding-left: unset !important; }
+[dir="rtl"] .pe-0  { padding-left: 0        !important; padding-right: unset !important; }
+[dir="rtl"] .pe-1  { padding-left: .25rem   !important; padding-right: unset !important; }
+[dir="rtl"] .pe-2  { padding-left: .5rem    !important; padding-right: unset !important; }
+[dir="rtl"] .pe-3  { padding-left: 1rem     !important; padding-right: unset !important; }
+[dir="rtl"] .pe-4  { padding-left: 1.5rem   !important; padding-right: unset !important; }
+[dir="rtl"] .pe-5  { padding-left: 3rem     !important; padding-right: unset !important; }
+
+@media (min-width: 576px) {
+  [dir="rtl"] .ps-sm-2 { padding-right: .5rem !important; padding-left: unset !important; }
+  [dir="rtl"] .pe-sm-2 { padding-left:  .5rem !important; padding-right: unset !important; }
+}
+@media (min-width: 768px) {
+  [dir="rtl"] .ps-md-2 { padding-right: .5rem !important; padding-left: unset !important; }
+  [dir="rtl"] .pe-md-2 { padding-left:  .5rem !important; padding-right: unset !important; }
+}
+
+/* Border start/end */
+[dir="rtl"] .border-start {
+  border-right: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+  border-left: 0 !important;
+}
+[dir="rtl"] .border-end {
+  border-left:  var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+  border-right: 0 !important;
+}
+
+/* Rounded corners */
+[dir="rtl"] .rounded-start {
+  border-top-right-radius:    var(--bs-border-radius) !important;
+  border-bottom-right-radius: var(--bs-border-radius) !important;
+  border-top-left-radius:     0 !important;
+  border-bottom-left-radius:  0 !important;
+}
+[dir="rtl"] .rounded-end {
+  border-top-left-radius:    var(--bs-border-radius) !important;
+  border-bottom-left-radius: var(--bs-border-radius) !important;
+  border-top-right-radius:   0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+/* Dropdowns — flip alignment */
+[dir="rtl"] .dropdown-menu-end {
+  --bs-position: start;
+  right: auto !important;
+  left: 0 !important;
+}
+[dir="rtl"] .dropdown-menu-start {
+  right: 0 !important;
+  left: auto !important;
+}
+
+/* ============================================================
+   Template layout — offcanvas/collapsed translateX direction
+   core.css uses inset-inline-start for fixed positioning so the
+   sidebar flips automatically. Only the translateX slide direction
+   needs a physical override for offcanvas hide/show.
+   ============================================================ */
+
+/* Off-canvas menu hidden state (slides off-screen to the inline-end side in RTL) */
+[dir="rtl"] .layout-menu-collapsed.layout-menu-offcanvas .layout-menu,
+[dir="rtl"] .layout-menu-fixed-offcanvas.layout-menu-collapsed .layout-menu {
+  transform: translateX(100%);
+}
+
+/* Mobile (small screens): inset-inline-start:0 already puts menu on right in RTL.
+   Only the translateX direction needs flipping from left-slide to right-slide. */
+@media (max-width: 1199.98px) {
+  [dir="rtl"] .layout-menu {
+    transform: translate3d(100%, 0, 0);
+  }
+  [dir="rtl"] .layout-menu-expanded .layout-menu {
+    transform: translate3d(0, 0, 0) !important;
+  }
+}
+
+/* Flip the chevron in the sidebar menu-toggle so it points the correct way */
+[dir="rtl"] .layout-menu-toggle .bx-chevron-left::before  { content: "\eb89"; } /* chevron-right */
+[dir="rtl"] .layout-menu-toggle .bx-chevron-right::before { content: "\eb85"; } /* chevron-left */
+
+/* ============================================================
+   Navbar
+   ============================================================ */
+
+/* Search input should align right in RTL */
+[dir="rtl"] .layout-navbar .form-control {
+  text-align: right;
+}
+
+/* ============================================================
+   Content area
+   ============================================================ */
+
+[dir="rtl"] .content-wrapper {
+  direction: rtl;
+}
+
+/* ============================================================
+   Cards & tables — default to right-aligned text
+   ============================================================ */
+
+[dir="rtl"] .card {
+  text-align: right;
+}
+
+[dir="rtl"] table,
+[dir="rtl"] .table > :not(caption) > * > * {
+  text-align: right;
+}
+
+/* ============================================================
+   Forms
+   ============================================================ */
+
+[dir="rtl"] .form-label,
+[dir="rtl"] .col-form-label,
+[dir="rtl"] .form-check-label {
+  text-align: right;
+}
+
+[dir="rtl"] .form-check {
+  padding-right: 1.5em;
+  padding-left: 0;
+}
+[dir="rtl"] .form-check .form-check-input {
+  float: right;
+  margin-right: -1.5em;
+  margin-left: 0;
+}
+
+/* Input group — swap border-radius */
+[dir="rtl"] .input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+  border-radius: var(--bs-border-radius) 0 0 var(--bs-border-radius);
+}
+[dir="rtl"] .input-group > :not(:last-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+  border-radius: 0 var(--bs-border-radius) var(--bs-border-radius) 0;
+}
+
+/* ============================================================
+   Alerts
+   ============================================================ */
+
+[dir="rtl"] .alert {
+  text-align: right;
+}
+[dir="rtl"] .alert-dismissible {
+  padding-right: var(--bs-alert-padding-x);
+  padding-left: calc(var(--bs-alert-padding-x) + 2.375rem);
+}
+[dir="rtl"] .alert-dismissible .btn-close {
+  right: auto;
+  left: 0;
+}
+
+/* ============================================================
+   Breadcrumb
+   ============================================================ */
+
+[dir="rtl"] .breadcrumb-item + .breadcrumb-item::before {
+  float: right;
+  padding-left: .5rem;
+  padding-right: 0;
+  transform: scaleX(-1);
+}
+
+/* ============================================================
+   Pagination
+   ============================================================ */
+
+[dir="rtl"] .pagination {
+  flex-direction: row-reverse;
+}
+
+/* ============================================================
+   Progress
+   ============================================================ */
+
+[dir="rtl"] .progress-bar {
+  float: right;
+}
+
+/* ============================================================
+   Offcanvas (Bootstrap component)
+   ============================================================ */
+
+[dir="rtl"] .offcanvas-start {
+  right: 0;
+  left: auto;
+  border-left:  var(--bs-offcanvas-border-width) solid var(--bs-offcanvas-border-color);
+  border-right: 0;
+  transform: translateX(100%);
+}
+[dir="rtl"] .offcanvas-end {
+  left: 0;
+  right: auto;
+  border-right: var(--bs-offcanvas-border-width) solid var(--bs-offcanvas-border-color);
+  border-left:  0;
+  transform: translateX(-100%);
+}
+[dir="rtl"] .offcanvas-start.show,
+[dir="rtl"] .offcanvas-end.show {
+  transform: none;
+}
+
+/* ============================================================
+   Toast container
+   ============================================================ */
+
+[dir="rtl"] .toast-container.end-0   { left: 0;    right: auto; }
+[dir="rtl"] .toast-container.start-0 { right: 0;   left: auto;  }
+
+/* ============================================================
+   List groups
+   ============================================================ */
+
+[dir="rtl"] .list-group {
+  padding-right: 0;
+}
+
+/* ============================================================
+   RTL language switcher button
+   ============================================================ */
+
+.rtl-toggle-btn {
+  cursor: pointer;
+  font-size: .875rem;
+  font-weight: 600;
+  padding: .25rem .5rem;
+  border-radius: .375rem;
+  border: 1px solid var(--bs-border-color, #dee2e6);
+  background: transparent;
+  color: inherit;
+  line-height: 1.5;
+  user-select: none;
+  min-width: 2rem;
+  text-align: center;
+}
+.rtl-toggle-btn:hover {
+  background: var(--bs-primary-bg-subtle, #e8e8ff);
+}
