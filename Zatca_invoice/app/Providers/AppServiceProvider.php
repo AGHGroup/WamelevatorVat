@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Auth\OracleUserProvider;
 use App\Database\OracleConnection;
 use App\Database\OracleConnector;
 use Illuminate\Database\Connection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,6 +22,11 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        //
+        Auth::provider('oracle-users', function ($app, array $config) {
+            return new OracleUserProvider(
+                $app['hash'],
+                $config['model']
+            );
+        });
     }
 }
