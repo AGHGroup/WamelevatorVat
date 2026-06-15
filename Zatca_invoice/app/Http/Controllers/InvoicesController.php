@@ -19,7 +19,7 @@ class InvoicesController extends Controller
         $allowed = ['SERIAL','TR_NO','TRANS_DATE','VAT_NAME','REF_NO','REF_VAL','VAT_VAL_D','VAT_VAL_C','VAT_NET'];
         if (! in_array(strtoupper($sortCol), $allowed)) $sortCol = 'SERIAL';
 
-        $where  = "i.DEL_FLAG = 0";
+        $where  = "i.DEL_FLAG = 0 AND NVL(i.TRANS_DATE, i.C_DATE) < TO_DATE('2024-10-01','YYYY-MM-DD')";
         $params = [];
 
         if ($vatId) {
@@ -70,14 +70,16 @@ class InvoicesController extends Controller
         $rows = DB::connection('oracle')->select("
             SELECT * FROM (
                 SELECT a.*, ROWNUM rn FROM (
-                    SELECT i.SERIAL, i.TR_NO, i.TRANS_DATE, i.REF_NO, i.REF_DATE,
+                    SELECT i.SERIAL, i.TR_NO,
+                           TO_CHAR(NVL(i.TRANS_DATE, i.C_DATE), 'DD/MM/YYYY') AS TRANS_DATE,
+                           i.REF_NO, TO_CHAR(i.REF_DATE, 'DD/MM/YYYY') AS REF_DATE,
                            i.DESCRIPTION, i.REF_VAL, i.VAT_VAL_D, i.VAT_VAL_C,
                            i.VAT_VAL_C - i.VAT_VAL_D AS VAT_NET,
                            i.VAT_ID, t.VAT_NAME, i.SUP_CUST_ACC, i.VAT_NO
                     FROM VAT_INVOICE i
                     LEFT JOIN VAT_TYPES t ON t.VAT_ID = i.VAT_ID
                     WHERE {$q['where']}
-                    ORDER BY {$q['sortCol']} {$q['sortDir']}
+                    ORDER BY NVL(i.TRANS_DATE, i.C_DATE) {$q['sortDir']}
                 ) a WHERE ROWNUM <= :max_row
             ) WHERE rn > :offset
         ", array_merge($q['params'], [':max_row' => $offset + $perPage, ':offset' => $offset]));
@@ -105,7 +107,7 @@ class InvoicesController extends Controller
     {
         $oracle = DB::connection('oracle');
 
-        // Invoice + customer info + CASH payment info
+        // Invoice + customer info via CHART_OF_ACCOUNT → CUSTOMERS
         $invoice = $oracle->selectOne("
             SELECT
                 v.SERIAL, v.TR_NO,
@@ -128,27 +130,13 @@ class InvoicesController extends Controller
                 NVL(cu.CUSTOMER_TYPE, cu2.CUSTOMER_TYPE)    AS CUST_TYPE,
                 NVL(cu.ID_NUMBER,   cu2.ID_NUMBER)          AS CUST_ID_NUMBER,
                 NVL(cu.VAT_NUMBER,  cu2.VAT_NUMBER)         AS CUST_VAT_NUMBER,
-                NVL(cu.CR,          cu2.CR)                 AS CUST_CR,
-                ca.CONTRACT_NO   AS CASH_CONTRACT_NO,
-                ca.VOUCHER_NO    AS CASH_VOUCHER_NO,
-                ca.TO_MR         AS CASH_TO_MR,
-                ca.VOUCHER_VAL   AS CASH_VOUCHER_VAL,
-                CASE WHEN ca.VOUCHER_NO IS NOT NULL THEN 1 ELSE 0 END AS IS_PAID
+                NVL(cu.CR,          cu2.CR)                 AS CUST_CR
             FROM VAT_INVOICE v
             LEFT JOIN CONST_ORDERS     o   ON TO_CHAR(o.CONSTRUCT_ID) = TO_CHAR(v.REF_NO)
             LEFT JOIN CHART_OF_ACCOUNT c   ON c.ACC_NO  = o.CUSTOMER_ACC_NO
             LEFT JOIN CHART_OF_ACCOUNT d   ON d.ACC_NO  = v.SUP_CUST_ACC
             LEFT JOIN CUSTOMERS        cu  ON cu.CUSTOMER_ID = c.CUSTOMER_ID
             LEFT JOIN CUSTOMERS        cu2 ON cu2.CUSTOMER_ID = d.CUSTOMER_ID
-            LEFT JOIN (
-                SELECT INVOICE_NO, CONTRACT_NO, VOUCHER_NO, TO_MR, VOUCHER_VAL
-                FROM CASH
-                WHERE DEL_FLAG = 0
-                AND SERIAL = (
-                    SELECT MAX(SERIAL) FROM CASH c2
-                    WHERE c2.INVOICE_NO = CASH.INVOICE_NO AND c2.DEL_FLAG = 0
-                )
-            ) ca ON TO_CHAR(ca.INVOICE_NO) = TO_CHAR(v.TR_NO)
             WHERE v.SERIAL = :serial AND v.DEL_FLAG = 0
         ", [':serial' => $serial]);
 

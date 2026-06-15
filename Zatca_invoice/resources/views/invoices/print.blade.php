@@ -66,10 +66,6 @@
     $deptId     = $inv['DEPARTMENT_ID']   ?? '';
     $serial     = $inv['SERIAL']          ?? '';
     $invoiceNo  = $deptId ? "{$deptId} - {$serial}" : $serial;
-    $contractNo = $inv['CASH_CONTRACT_NO'] ?? '';
-    $voucherNo  = $inv['CASH_VOUCHER_NO']  ?? '';
-    $toMr       = $inv['CASH_TO_MR']       ?? '';
-    $isPaid     = (int)($inv['IS_PAID']    ?? 0) === 1;
     $transDate  = $inv['TRANS_DATE']      ?? '';
     $refDateRaw = $inv['REF_DATE']        ?? '';
     $refNo      = $inv['REF_NO']          ?? '';
@@ -221,29 +217,14 @@
     </tr>
     <tr>
         <td id="invoice_id">رقم الفاتورة: {{ $invoiceNo }}</td>
-        @if($contractNo)
-        <td>رقم العقد: {{ $contractNo }}</td>
-        @else
         <td>&ensp;</td>
-        @endif
         <td id="date">تاريخ الفاتورة: {{ $displayDate }}</td>
     </tr>
     <tr>
-        <td>طريقة الدفع: {{ $isPaid ? 'مدفوعة ✓' : 'نقداً' }}</td>
-        @if($voucherNo)
-        <td>رقم السند: {{ $voucherNo }}</td>
-        @else
+        <td>طريقة الدفع: نقداً</td>
         <td>&ensp;</td>
-        @endif
         <td>تاريخ التوريد: {{ $supplyDate }}</td>
     </tr>
-    @if($toMr)
-    <tr>
-        <td>استلم السند: {{ $toMr }}</td>
-        <td>&ensp;</td>
-        <td>&ensp;</td>
-    </tr>
-    @endif
 </table>
 
 {{-- ── QR code ──────────────────────────────────────────────── --}}
@@ -359,9 +340,6 @@
     $printName = $printUser->user_aname ?? $printUser->user_ename ?? $printUser->user_id ?? '';
 @endphp
 <p>تمت طباعة الفاتورة بواسطة {{ $printName }}</p>
-@if($toMr)
-<p>استلم السند: {{ $toMr }}</p>
-@endif
     <p>{{ now()->format('Y-m-d H:i:s') }}</p>
     <button class="print-btn" onclick="window.print()">🖨️ طباعة الفاتورة</button>
     <a href="{{ route('invoices.index') }}" class="back-btn">↩ العودة للقائمة</a>
