@@ -15,4 +15,8 @@ return [
     'vat_types'        => 'أنواع الضريبة',
     'oracle_tables'    => 'جداول Oracle',
 
+    // Settings
+    'section_settings'  => 'الإعدادات',
+    'company_settings'  => 'بيانات الشركة',
+
 ];

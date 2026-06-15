@@ -21,28 +21,35 @@ class User extends Authenticatable
     protected $hidden = ['USER_PASSWORD'];
 
     // Map Laravel's expected auth column names to Oracle column names
-    public function getAuthIdentifierName(): string { return 'USER_ID'; }
-    public function getAuthIdentifier()             { return $this->USER_ID; }
-    public function getAuthPassword(): string       { return $this->USER_PASSWORD ?? ''; }
+    public function getAuthIdentifierName(): string { return 'user_id'; }
+    public function getAuthIdentifier()             { return $this->user_id ?? $this->USER_ID; }
+    public function getAuthPassword(): string       { return $this->user_password ?? $this->USER_PASSWORD ?? ""; }
 
     public function getNameAttribute(): string
     {
-        return app()->getLocale() === 'ar'
-            ? ($this->USER_ANAME ?? $this->USER_ENAME ?? $this->USER_ID)
-            : ($this->USER_ENAME ?? $this->USER_ANAME ?? $this->USER_ID);
+        return (string) (app()->getLocale() === 'ar'
+            ? ($this->user_aname ?? $this->USER_ANAME ?? $this->user_ename ?? $this->USER_ENAME ?? $this->user_id ?? $this->USER_ID ?? '')
+            : ($this->user_ename ?? $this->USER_ENAME ?? $this->user_aname ?? $this->USER_ANAME ?? $this->user_id ?? $this->USER_ID ?? ''));
     }
 
     // U_TYPE: if it equals 1 (or whatever "full" is), user is admin
     // Adjust the value below once confirmed from the DB
     public function isAdmin(): bool
     {
-        return (int) $this->U_TYPE === 1;
+        return (int) ($this->u_type ?? $this->U_TYPE ?? 0) === 1;
     }
 
     public function isActive(): bool
     {
-        return (int) $this->STATUS  !== 0
-            && (int) $this->LOCKED  !== 1
-            && (int) $this->DEL_FLAG !== 1;
+        // Only block when a column is explicitly set to a blocking value
+        $locked  = $this->locked   ?? $this->LOCKED   ?? null;
+        $delFlag = $this->del_flag ?? $this->DEL_FLAG ?? null;
+        $status  = $this->status   ?? $this->STATUS   ?? null;
+
+        if ($locked  !== null && (int)$locked  === 1) return false;
+        if ($delFlag !== null && (int)$delFlag === 1) return false;
+
+        return true;
     }
 }
+

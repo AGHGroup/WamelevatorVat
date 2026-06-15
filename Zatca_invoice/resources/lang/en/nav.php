@@ -15,4 +15,8 @@ return [
     'vat_types'        => 'VAT Types',
     'oracle_tables'    => 'Oracle Tables',
 
+    // Settings
+    'section_settings'  => 'Settings',
+    'company_settings'  => 'Company Info',
+
 ];

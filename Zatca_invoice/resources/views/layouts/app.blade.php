@@ -126,6 +126,44 @@
             </a>
           </li>
 
+          <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">{{ __('nav.section_settings') }}</span>
+          </li>
+
+          <li class="menu-item {{ request()->routeIs('company.settings.*') ? 'active' : '' }}">
+            <a href="{{ route('company.settings.edit') }}" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-building"></i>
+              <div class="text-truncate">{{ __('nav.company_settings') }}</div>
+            </a>
+          </li>
+          <li class="menu-item {{ request()->routeIs('customers.*') ? 'active' : '' }}">
+            <a href="{{ route('customers.index') }}" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-group"></i>
+              <div class="text-truncate">العملاء</div>
+            </a>
+          </li>
+
+          <li class="menu-header small text-uppercase mt-2"><span class="menu-header-text">المواقع</span></li>
+
+          <li class="menu-item {{ request()->routeIs('locations.regions') ? 'active' : '' }}">
+            <a href="{{ route('locations.regions') }}" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-map"></i>
+              <div class="text-truncate">المناطق</div>
+            </a>
+          </li>
+          <li class="menu-item {{ request()->routeIs('locations.cities') ? 'active' : '' }}">
+            <a href="{{ route('locations.cities') }}" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-buildings"></i>
+              <div class="text-truncate">المدن</div>
+            </a>
+          </li>
+          <li class="menu-item {{ request()->routeIs('locations.districts') ? 'active' : '' }}">
+            <a href="{{ route('locations.districts') }}" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-map-pin"></i>
+              <div class="text-truncate">الأحياء</div>
+            </a>
+          </li>
+
         </ul>
       </aside>
       <!-- / Sidebar -->

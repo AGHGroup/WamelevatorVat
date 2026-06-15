@@ -39,7 +39,7 @@ class LCE_Tables extends Model
         $offset  = ($page - 1) * $perPage;
 
         $total = DB::connection('oracle')
-            ->select("SELECT COUNT(*) AS CNT FROM {$table}")[0]->CNT;
+            ->select("SELECT COUNT(*) AS CNT FROM {$table}")[0]->cnt;
 
         $rows = DB::connection('oracle')
             ->select("SELECT * FROM (SELECT a.*, ROWNUM rn FROM (SELECT * FROM {$table}) a WHERE ROWNUM <= ?) WHERE rn > ?", [$offset + $perPage, $offset]);

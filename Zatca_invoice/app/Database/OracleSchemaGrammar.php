@@ -9,13 +9,18 @@ class OracleSchemaGrammar extends Grammar
 {
     protected $modifiers = ['Nullable', 'Default'];
 
+    protected function wrapValue($value): string
+    {
+        return $value !== '*' ? $value : $value;
+    }
+
     // ── Introspection ─────────────────────────────────────────────────────────
 
     public function compileTables(string $schema = ''): string
     {
-        return "SELECT LOWER(table_name) AS name, NULL AS schema, NULL AS size,
-                       NULL AS comment, NULL AS collation, NULL AS engine
-                FROM user_tables ORDER BY table_name";
+        return 'SELECT LOWER(table_name) AS name, NULL AS "schema", NULL AS "size",
+                       NULL AS "comment", NULL AS "collation", NULL AS "engine"
+                FROM user_tables ORDER BY table_name';
     }
 
     public function compileColumns(string $schema, string $table): string
@@ -23,7 +28,7 @@ class OracleSchemaGrammar extends Grammar
         return "SELECT LOWER(column_name) AS name, data_type AS type_name,
                        data_length AS length, data_precision AS precision,
                        data_scale AS places, nullable AS nullable,
-                       data_default AS default
+                       data_default AS \"default\"
                 FROM user_tab_columns
                 WHERE table_name = '" . strtoupper($table) . "'
                 ORDER BY column_id";
@@ -32,9 +37,9 @@ class OracleSchemaGrammar extends Grammar
     public function compileIndexes(string $schema, string $table): string
     {
         return "SELECT LOWER(i.index_name) AS name,
-                       LOWER(LISTAGG(ic.column_name, ',') WITHIN GROUP (ORDER BY ic.column_position)) AS columns,
-                       CASE i.uniqueness WHEN 'UNIQUE' THEN 1 ELSE 0 END AS unique,
-                       CASE WHEN c.constraint_type = 'P' THEN 1 ELSE 0 END AS primary
+                       LOWER(LISTAGG(ic.column_name, ',') WITHIN GROUP (ORDER BY ic.column_position)) AS \"columns\",
+                       CASE i.uniqueness WHEN 'UNIQUE' THEN 1 ELSE 0 END AS \"unique\",
+                       CASE WHEN c.constraint_type = 'P' THEN 1 ELSE 0 END AS \"primary\"
                 FROM user_indexes i
                 JOIN user_ind_columns ic ON ic.index_name = i.index_name
                 LEFT JOIN user_constraints c ON c.index_name = i.index_name AND c.constraint_type = 'P'
@@ -45,10 +50,10 @@ class OracleSchemaGrammar extends Grammar
     public function compileForeignKeys(string $schema, string $table): string
     {
         return "SELECT LOWER(a.constraint_name) AS name,
-                       LOWER(LISTAGG(ac.column_name, ',') WITHIN GROUP (ORDER BY ac.position)) AS columns,
-                       LOWER(b.table_name) AS foreign_table,
-                       LOWER(LISTAGG(bc.column_name, ',') WITHIN GROUP (ORDER BY bc.position)) AS foreign_columns,
-                       'NO ACTION' AS on_update, 'NO ACTION' AS on_delete
+                       LOWER(LISTAGG(ac.column_name, ',') WITHIN GROUP (ORDER BY ac.position)) AS \"columns\",
+                       LOWER(b.table_name) AS \"foreign_table\",
+                       LOWER(LISTAGG(bc.column_name, ',') WITHIN GROUP (ORDER BY bc.position)) AS \"foreign_columns\",
+                       'NO ACTION' AS \"on_update\", 'NO ACTION' AS \"on_delete\"
                 FROM user_constraints a
                 JOIN user_cons_columns ac ON ac.constraint_name = a.constraint_name
                 JOIN user_constraints b  ON b.constraint_name  = a.r_constraint_name

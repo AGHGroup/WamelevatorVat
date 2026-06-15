@@ -26,6 +26,8 @@ return [
     // Footer
     'footer_copy' => 'نظام فواتير الزكاة والضريبة والجمارك',
 
+    'settings_saved' => 'تم حفظ الإعدادات بنجاح.',
+
     // Flash messages
     'created_success' => 'تم الإنشاء بنجاح.',
     'updated_success' => 'تم التحديث بنجاح.',
