@@ -114,6 +114,7 @@ class InvoicesController extends Controller
                 TO_CHAR(NVL(v.TRANS_DATE, v.C_DATE), 'YYYY-MM-DD')    AS TRANS_DATE,
                 TO_CHAR(v.REF_DATE,                  'YYYY-MM-DD')    AS REF_DATE,
                 TO_CHAR(v.C_DATE, 'YYYY-MM-DD') || 'T' || TO_CHAR(v.C_DATE, 'HH24:MI:SS') AS C_DATE,
+                EXTRACT(YEAR FROM NVL(v.TRANS_DATE, v.C_DATE))         AS TRANS_YEAR,
                 v.REF_NO, v.DESCRIPTION, v.REF_VAL, v.VAT_VAL_C,
                 v.SUP_CUST_ACC, v.C_USER, v.DEPARTMENT_ID,
                 o.DISCOUNT, o.DIS_VAL, o.NOTES, o.CONSTRUCT_ID,
@@ -133,6 +134,8 @@ class InvoicesController extends Controller
                 NVL(cu.CR,          cu2.CR)                 AS CUST_CR
             FROM VAT_INVOICE v
             LEFT JOIN CONST_ORDERS     o   ON TO_CHAR(o.CONSTRUCT_ID) = TO_CHAR(v.REF_NO)
+                                         AND o.TRANS_NO = v.TR_NO
+                                         AND o.YEAR     = EXTRACT(YEAR FROM NVL(v.TRANS_DATE, v.C_DATE))
             LEFT JOIN CHART_OF_ACCOUNT c   ON c.ACC_NO  = o.CUSTOMER_ACC_NO
             LEFT JOIN CHART_OF_ACCOUNT d   ON d.ACC_NO  = v.SUP_CUST_ACC
             LEFT JOIN CUSTOMERS        cu  ON cu.CUSTOMER_ID = c.CUSTOMER_ID
@@ -143,20 +146,27 @@ class InvoicesController extends Controller
         abort_if(! $invoice, 404);
 
         $inv        = (array) $invoice;
-        $constId    = $inv['CONSTRUCT_ID'] ?? null;
+        $constId    = $inv['CONSTRUCT_ID']  ?? null;
+        $trNo       = $inv['TR_NO']         ?? null;
+        $transYear  = $inv['TRANS_YEAR']    ?? null;
 
-        // Line items
+        // Line items — join CONST_ITEMS → CONST_ORDERS on both CONSTRUCT_ID + DEPARTMENT_ID
         $items = [];
         if ($constId) {
             $items = $oracle->select("
                 SELECT
                     ci.ITEM_NO, ci.QTY, ci.UNT_PRICE,
-                    ci.QTY * ci.UNT_PRICE   AS LINE_TOTAL,
+                    ci.QTY * ci.UNT_PRICE        AS LINE_TOTAL,
                     itm.ITEM_ANAME, itm.ITEM_ENAME
-                FROM CONST_ITEMS ci
-                LEFT JOIN ITEMS itm ON itm.ITEM_NO = ci.ITEM_NO
-                WHERE ci.CONSTRUCT_ID = :cid AND ci.DEL_FLAG = 0
-            ", [':cid' => $constId]);
+                FROM CONST_ITEMS  ci
+                JOIN CONST_ORDERS co ON co.CONSTRUCT_ID   = ci.CONSTRUCT_ID
+                                    AND co.DEPARTMENT_ID  = ci.DEPARTMENT_ID
+                LEFT JOIN ITEMS itm ON itm.ITEM_NO        = ci.ITEM_NO
+                WHERE co.CONSTRUCT_ID = :cid
+                  AND co.TRANS_NO     = :trans_no
+                  AND co.YEAR         = :trans_year
+                  AND ci.DEL_FLAG     = 0
+            ", [':cid' => $constId, ':trans_no' => $trNo, ':trans_year' => $transYear]);
         }
 
         return view('invoices.print', compact('inv', 'items'));
