@@ -16,7 +16,7 @@ class User extends Authenticatable
     protected $keyType    = 'string';
     public    $timestamps = false;
 
-    protected $fillable = ['USER_ID', 'USER_PASSWORD', 'USER_ANAME', 'USER_ENAME'];
+    protected $fillable = ['USER_ID', 'USER_PASSWORD', 'USER_ANAME', 'USER_ENAME', 'ZATCA_INVOICES', 'WAMELEVATOR'];
 
     protected $hidden = ['USER_PASSWORD'];
 
@@ -37,6 +37,16 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return (int) ($this->u_type ?? $this->U_TYPE ?? 0) === 1;
+    }
+
+    public function hasZatcaAccess(): bool
+    {
+        return (int)($this->zatca_invoices ?? $this->ZATCA_INVOICES ?? 0) === 1;
+    }
+
+    public function hasWamelevatorAccess(): bool
+    {
+        return (int)($this->wamelevator ?? $this->WAMELEVATOR ?? 0) === 1;
     }
 
     public function isActive(): bool

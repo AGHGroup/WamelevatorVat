@@ -79,6 +79,23 @@ return [
             ],
         ],
 
+        'wamelevator' => [
+            'driver' => 'oracle',
+            'tns' => env('ORA2_TNS', ''),
+            'host' => env('ORA2_HOST', ''),
+            'port' => env('ORA2_PORT', '1521'),
+            'database' => env('ORA2_DATABASE', ''),
+            'service_name' => env('ORA2_SERVICE_NAME', ''),
+            'username' => env('ORA2_USERNAME', ''),
+            'password' => env('ORA2_PASSWORD', ''),
+            'charset' => env('ORA2_CHARSET', 'AL32UTF8'),
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'options' => [
+                'session_mode' => 0,
+            ],
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),

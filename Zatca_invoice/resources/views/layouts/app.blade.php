@@ -71,96 +71,10 @@
 
         <ul class="menu-inner py-1">
 
-          <li class="menu-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-            <a href="{{ route('dashboard') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-home-smile"></i>
-              <div class="text-truncate">{{ __('nav.dashboard') }}</div>
-            </a>
-          </li>
-
-          <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">{{ __('nav.section_zatca') }}</span>
-          </li>
-
-          <li class="menu-item {{ request()->routeIs('invoices.*') ? 'active open' : '' }}">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-              <i class="menu-icon tf-icons bx bx-receipt"></i>
-              <div class="text-truncate">{{ __('nav.invoices') }}</div>
-            </a>
-            <ul class="menu-sub">
-              <li class="menu-item {{ request()->routeIs('invoices.index') ? 'active' : '' }}">
-                <a href="{{ route('invoices.index') }}" class="menu-link">
-                  <div class="text-truncate">{{ __('nav.all_invoices') }}</div>
-                </a>
-              </li>
-              <li class="menu-item {{ request()->routeIs('invoices.create') ? 'active' : '' }}">
-                <a href="{{ route('invoices.create') }}" class="menu-link">
-                  <div class="text-truncate">{{ __('nav.new_invoice') }}</div>
-                </a>
-              </li>
-            </ul>
-          </li>
-
-          <li class="menu-item {{ request()->routeIs('vat-categories.*') ? 'active' : '' }}">
-            <a href="{{ route('vat-categories.index') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-category"></i>
-              <div class="text-truncate">{{ __('nav.vat_categories') }}</div>
-            </a>
-          </li>
-
           <li class="menu-item {{ request()->routeIs('vat-types.*') ? 'active' : '' }}">
             <a href="{{ route('vat-types.index') }}" class="menu-link">
               <i class="menu-icon tf-icons bx bx-tag"></i>
               <div class="text-truncate">{{ __('nav.vat_types') }}</div>
-            </a>
-          </li>
-
-          <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">{{ __('nav.section_database') }}</span>
-          </li>
-
-          <li class="menu-item {{ request()->routeIs('oracle.*') ? 'active' : '' }}">
-            <a href="{{ route('oracle.tables') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-table"></i>
-              <div class="text-truncate">{{ __('nav.oracle_tables') }}</div>
-            </a>
-          </li>
-
-          <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">{{ __('nav.section_settings') }}</span>
-          </li>
-
-          <li class="menu-item {{ request()->routeIs('company.settings.*') ? 'active' : '' }}">
-            <a href="{{ route('company.settings.edit') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-building"></i>
-              <div class="text-truncate">{{ __('nav.company_settings') }}</div>
-            </a>
-          </li>
-          <li class="menu-item {{ request()->routeIs('customers.*') ? 'active' : '' }}">
-            <a href="{{ route('customers.index') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-group"></i>
-              <div class="text-truncate">العملاء</div>
-            </a>
-          </li>
-
-          <li class="menu-header small text-uppercase mt-2"><span class="menu-header-text">المواقع</span></li>
-
-          <li class="menu-item {{ request()->routeIs('locations.regions') ? 'active' : '' }}">
-            <a href="{{ route('locations.regions') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-map"></i>
-              <div class="text-truncate">المناطق</div>
-            </a>
-          </li>
-          <li class="menu-item {{ request()->routeIs('locations.cities') ? 'active' : '' }}">
-            <a href="{{ route('locations.cities') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-buildings"></i>
-              <div class="text-truncate">المدن</div>
-            </a>
-          </li>
-          <li class="menu-item {{ request()->routeIs('locations.districts') ? 'active' : '' }}">
-            <a href="{{ route('locations.districts') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-map-pin"></i>
-              <div class="text-truncate">الأحياء</div>
             </a>
           </li>
 
@@ -214,8 +128,14 @@
                     <a class="dropdown-item" href="#">
                       <div class="d-flex">
                         <div class="flex-grow-1">
-                          <h6 class="mb-0">{{ Auth::check() ? Auth::user()->name : __('app.admin') }}</h6>
-                          <small class="text-body-secondary">{{ Auth::check() ? Auth::user()->email : 'admin' }}</small>
+                          <h6 class="mb-0">{{ session('user_display_name', Auth::user()?->name ?? __('app.admin')) }}</h6>
+                          <small class="text-body-secondary">
+                            @if(session('active_system') === 'wamelevator')
+                              <i class="bx bx-elevator me-1"></i>{{ __('auth.system_wamelevator') }}
+                            @else
+                              <i class="bx bx-receipt me-1"></i>{{ __('auth.system_zatca') }}
+                            @endif
+                          </small>
                         </div>
                       </div>
                     </a>

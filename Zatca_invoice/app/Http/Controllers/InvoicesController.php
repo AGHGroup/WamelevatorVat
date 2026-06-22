@@ -19,7 +19,10 @@ class InvoicesController extends Controller
         $allowed = ['SERIAL','TR_NO','TRANS_DATE','VAT_NAME','REF_NO','REF_VAL','VAT_VAL_D','VAT_VAL_C','VAT_NET'];
         if (! in_array(strtoupper($sortCol), $allowed)) $sortCol = 'SERIAL';
 
-        $where  = "i.DEL_FLAG = 0 AND NVL(i.TRANS_DATE, i.C_DATE) < TO_DATE('2024-10-01','YYYY-MM-DD')";
+        $isZatca = session('active_system') === 'zatca';
+        $where   = $isZatca
+            ? "i.DEL_FLAG = 0 AND NVL(i.TRANS_DATE, i.C_DATE) < TO_DATE('2024-10-01','YYYY-MM-DD')"
+            : "i.DEL_FLAG = 0";
         $params = [];
 
         if ($vatId) {
