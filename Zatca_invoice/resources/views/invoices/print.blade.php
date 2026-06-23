@@ -436,12 +436,13 @@
     $items = collect($items)->map(fn($i) => array_change_key_case((array)$i, CASE_UPPER));
 
     $co = \App\Models\CompanySetting::current();
+    abort_if(empty($co->co_name), 503, 'بيانات الشركة غير متوفرة — تحقق من اتصال قاعدة البيانات.');
     $coName   = $co->co_name     ?: '';
     $coCrNo   = $co->cr_no       ?: '';
     $coVatNo  = $co->vat_no      ?: '';
     $coBldNo  = $co->building_no ?: '';
     $coPostal = $co->postal_code ?: '';
-    $coHeader = $co->header_path ?: 'header.jpg';
+    $coHeader = $co->header_path ?: '';
 
     $coDistrictName = '';
     if ($co->district_id) {
@@ -466,7 +467,9 @@
 
     {{-- ── Header ── --}}
     <div class="invoice-header">
+        @if($coHeader)
         <img src="{{ asset($coHeader) }}" alt="Header">
+        @endif
         <div class="invoice-type-badge">
             <span>{{ $isSimplified ? 'فاتورة ضريبية مبسطة' : 'فاتورة ضريبية' }}</span>
         </div>

@@ -11,6 +11,7 @@ use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\CompanySettingController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\SystemSelectController;
 
 // Public — language switcher
 Route::get('/locale/{locale}', [LocaleController::class, 'switch'])->name('locale.switch');
@@ -63,6 +64,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/company/settings',              [CompanySettingController::class, 'edit'])->name('company.settings.edit');
     Route::put('/company/settings',              [CompanySettingController::class, 'update'])->name('company.settings.update');
     Route::get('/company/districts/{cityId}',    [CompanySettingController::class, 'districts'])->name('company.districts');
+
+    // System switcher
+    Route::get('/switch-system/{system}', function ($system) {
+        abort_if(! in_array($system, ['zatca', 'wamelevator']), 404);
+        $user = auth()->user();
+        if ($system === 'wamelevator' && ! $user->hasWamelevatorAccess()) abort(403);
+        if ($system === 'zatca'       && ! $user->hasZatcaAccess())       abort(403);
+        session(['active_system' => $system]);
+        return redirect()->back()->with('success', 'تم تغيير النظام');
+    })->name('switch.system');
 
     // Oracle table browser
     Route::get('/oracle/tables',         [LCETablesController::class, 'index'])->name('oracle.tables');

@@ -124,8 +124,6 @@ class InvoicesController extends Controller
                 NVL(c.ACC_ANAME, d.ACC_ANAME)              AS CUSTOMER_NAME,
                 NVL(c.ACC_ENAME, d.ACC_ENAME)              AS CUSTOMER_ENAME,
                 NVL(c.ACC_NO,    d.ACC_NO)                 AS CUSTOMER_ACC,
-                NVL(cu.VAT_NO,      cu2.VAT_NO)             AS VAT_NO,
-                NVL(cu.ADDRESS,     cu2.ADDRESS)            AS CUSTOMER_ADDRESS,
                 NVL(cu.BUILDING_NO, cu2.BUILDING_NO)        AS CUST_BUILDING_NO,
                 NVL(cu.STREET_NAME, cu2.STREET_NAME)        AS CUST_STREET,
                 NVL(cu.POSTAL_CODE, cu2.POSTAL_CODE)        AS CUST_POSTAL,

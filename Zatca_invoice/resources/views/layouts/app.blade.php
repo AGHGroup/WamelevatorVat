@@ -105,6 +105,16 @@
 
             <ul class="navbar-nav flex-row align-items-center ms-md-auto">
 
+              <!-- Company name badge -->
+              @php $navCo = \App\Models\CompanySetting::current(); @endphp
+              <li class="nav-item me-3 d-none d-md-flex align-items-center">
+                <span class="badge rounded-pill px-3 py-2"
+                      style="background:rgba(255,255,255,.12);color:#F8FAFC;font-size:.78rem;font-weight:600;letter-spacing:.01em;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"
+                      title="{{ $navCo->co_name }}">
+                  <i class="bx bx-building me-1"></i>{{ $navCo->co_name }}
+                </span>
+              </li>
+
               <!-- Language toggle -->
               <li class="nav-item me-2 me-xl-0">
                 <a href="{{ route('locale.switch', $other) }}"
@@ -142,6 +152,22 @@
                   </li>
                   <li><div class="dropdown-divider my-1"></div></li>
                   @auth
+                  @if(auth()->user()->hasWamelevatorAccess() && auth()->user()->hasZatcaAccess())
+                  <li>
+                    @if(session('active_system') === 'wamelevator')
+                      <a class="dropdown-item" href="{{ route('switch.system', 'zatca') }}">
+                        <i class="bx bx-transfer me-2 text-primary"></i>
+                        <span>التبديل إلى نظام زاتكا</span>
+                      </a>
+                    @else
+                      <a class="dropdown-item" href="{{ route('switch.system', 'wamelevator') }}">
+                        <i class="bx bx-transfer me-2 text-primary"></i>
+                        <span>التبديل إلى نظام واملفت</span>
+                      </a>
+                    @endif
+                  </li>
+                  <li><div class="dropdown-divider my-1"></div></li>
+                  @endif
                   <li>
                     <a class="dropdown-item" href="{{ route('logout') }}"
                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
