@@ -177,46 +177,8 @@
 </div>
 @endif
 
-{{-- ── Quick actions + About ──────────────────────────────────── --}}
+{{-- ── About ──────────────────────────────────── --}}
 <div class="row g-4">
-
-  <div class="col-md-6">
-    <div class="card h-100">
-      <div class="card-header">
-        <h6 class="mb-0 fw-semibold" style="color:var(--zatca-navy);">
-          <i class="bx bx-bolt-circle me-2 text-primary"></i>
-          {{ __('app.quick_actions') }}
-        </h6>
-      </div>
-      <div class="card-body d-flex flex-column gap-2 py-3">
-
-        <a href="{{ route('oracle.tables') }}" class="zatca-action-item">
-          <span class="action-icon" style="background:#E0F2FE;color:#0369A1;">
-            <i class="bx bx-table"></i>
-          </span>
-          <span>{{ __('nav.oracle_tables') }}</span>
-          <i class="bx bx-chevron-right ms-auto" style="color:var(--zatca-muted);"></i>
-        </a>
-
-        <a href="{{ route('invoices.create') }}" class="zatca-action-item">
-          <span class="action-icon" style="background:#DCFCE7;color:#16A34A;">
-            <i class="bx bx-plus-circle"></i>
-          </span>
-          <span>{{ __('nav.new_invoice') }}</span>
-          <i class="bx bx-chevron-right ms-auto" style="color:var(--zatca-muted);"></i>
-        </a>
-
-        <a href="{{ route('invoices.index') }}" class="zatca-action-item">
-          <span class="action-icon" style="background:#F1F5F9;color:#475569;">
-            <i class="bx bx-list-ul"></i>
-          </span>
-          <span>{{ __('nav.all_invoices') }}</span>
-          <i class="bx bx-chevron-right ms-auto" style="color:var(--zatca-muted);"></i>
-        </a>
-
-      </div>
-    </div>
-  </div>
 
   <div class="col-md-6">
     <div class="card h-100">

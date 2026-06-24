@@ -63,9 +63,9 @@ class CompanySettingController extends Controller
 
         if ($request->hasFile('header_image')) {
             $file     = $request->file('header_image');
-            $filename = 'header.' . $file->getClientOriginalExtension();
-            $file->move(public_path(), $filename);
-            $validated['header_path'] = $filename;
+            $filename = 'header_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads'), $filename);
+            $validated['header_path'] = 'uploads/' . $filename;
         }
 
         unset($validated['header_image']);

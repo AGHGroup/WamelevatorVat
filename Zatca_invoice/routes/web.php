@@ -75,8 +75,8 @@ Route::middleware('auth')->group(function () {
         return redirect()->back()->with('success', 'تم تغيير النظام');
     })->name('switch.system');
 
-    // Oracle table browser
-    Route::get('/oracle/tables',         [LCETablesController::class, 'index'])->name('oracle.tables');
-    Route::get('/oracle/tables/{table}', [LCETablesController::class, 'show'])->name('oracle.table.show');
+    // Oracle table browser — disabled
+    Route::get('/oracle/tables',         fn() => abort(403))->name('oracle.tables');
+    Route::get('/oracle/tables/{table}', fn() => abort(403))->name('oracle.table.show');
 
 });

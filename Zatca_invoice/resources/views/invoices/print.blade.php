@@ -468,7 +468,7 @@
     {{-- ── Header ── --}}
     <div class="invoice-header">
         @if($coHeader)
-        <img src="{{ asset($coHeader) }}" alt="Header">
+        <img src="{{ asset($coHeader) }}?v={{ filemtime(public_path($coHeader)) ?: time() }}" alt="Header">
         @endif
         <div class="invoice-type-badge">
             <span>{{ $isSimplified ? 'فاتورة ضريبية مبسطة' : 'فاتورة ضريبية' }}</span>
